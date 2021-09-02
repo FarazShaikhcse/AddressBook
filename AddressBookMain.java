@@ -14,8 +14,9 @@ public class AddressBookMain {
 
 		System.out.println("Welcome to Address Book Program");
 
-		while (choice != 4) {
-			System.out.println("Enter your choice\n1.Add Contact\n2.Edit Contact\n3.Display AddressBook\n4.Exit"); 
+		while (choice != 5) {
+			System.out.println(
+					"Enter your choice\n1.Add Contact\n2.Edit Contact\n3.Display AddressBook\n4.Delete contact\n5.Exit");
 			choice = scanner.nextInt();
 			switch (choice) {
 			case 1:
@@ -29,13 +30,38 @@ public class AddressBookMain {
 			case 3:
 				display();
 				break;
+
+			case 4:
+				deleteContact();
+				break;
 			}
 		}
 
 	}
 
+	private static void deleteContact() {
+
+		System.out.println("Enter the name of the person whose contact is to be deleted");
+		Scanner scanner = new Scanner(System.in);
+		String name = scanner.next();
+		for (int j = 0; j < contacts.size(); j++) {
+			if (contacts.get(j).first_name.equals(name)) {
+				contacts.remove(j);
+				System.out.println(name + " deleted from address book");
+				return;
+			}
+		}
+		System.out.println(name + " not found in the address book");
+
+	}
+
 	private static void display() {
 
+		
+		if (contacts.size() == 0) {
+			System.out.println("Address book is empty");
+			return;
+		}
 		System.out.println("Contact Details are:\n");
 		for (int j = 0; j < contacts.size(); j++) {
 
@@ -54,47 +80,48 @@ public class AddressBookMain {
 
 			if (contacts.get(j).first_name.equals(name)) {
 				flag = true;
-				System.out.println("Enter the field which you want to edit\n1.first name\n2.last name\n3.address\n4.city\n5.state\n6.zip\n7.phone number\n8.email");
+				System.out.println(
+						"Enter the field which you want to edit\n1.first name\n2.last name\n3.address\n4.city\n5.state\n6.zip\n7.phone number\n8.email");
 				int choice = scanner.nextInt();
 				switch (choice) {
 
 				case 1:
-					System.out.println("Enter first name:");
+					System.out.println("Enter new first name:");
 					contacts.get(j).first_name = scanner.next();
 					break;
 
 				case 2:
-					System.out.println("Enter last name:");
+					System.out.println("Enter new last name:");
 					contacts.get(j).last_name = scanner.next();
 					break;
 
 				case 3:
-					System.out.println("Enter address:");
+					System.out.println("Enter new address:");
 					contacts.get(j).address = scanner.next();
 					break;
 
 				case 4:
-					System.out.println("Enter city:");
+					System.out.println("Enter new city:");
 					contacts.get(j).city = scanner.next();
 					break;
 
 				case 5:
-					System.out.println("Enter state:");
+					System.out.println("Enter new state:");
 					contacts.get(j).state = scanner.next();
 					break;
 
 				case 6:
-					System.out.println("Enter ip:");
+					System.out.println("Enter new zip:");
 					contacts.get(j).zip = scanner.next();
 					break;
 
 				case 7:
-					System.out.println("Enter phone_number:");
+					System.out.println("Enter new phone_number:");
 					contacts.get(j).phone_number = scanner.next();
 					break;
 
 				case 8:
-					System.out.println("Enter email:");
+					System.out.println("Enter new email:");
 					contacts.get(j).email = scanner.next();
 					break;
 
