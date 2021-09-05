@@ -1,161 +1,93 @@
 package com.main;
 
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
+
 
 public class AddressBookMain {
 
-	public static ArrayList<Contact> contacts = new ArrayList<>();
-
+	public static Set<AddressBook> addressBooks = new HashSet<>();
+	
 	public static void main(String[] args) {
 
 		int choice = 0;
+		boolean flag = false;
 		Scanner scanner = new Scanner(System.in);
 
 		System.out.println("Welcome to Address Book Program");
 
-		while (choice != 5) {
+		while (choice != 6) {
 			System.out.println(
-					"Enter your choice\n1.Add Contact\n2.Edit Contact\n3.Display AddressBook\n4.Delete contact\n5.Exit");
+					"Enter your choice\n1.Create AddressBook\n2.Add Contact\n3.Edit Contact\n4.Display AddressBook\n5.Delete contact\n6.Exit");
 			choice = scanner.nextInt();
 			switch (choice) {
 			case 1:
-				addContact();
-				break;
-
+				System.out.println("Enter addressbook name");
+				String name = scanner.next();
+				addressBooks.add(new AddressBook(name));
+			    break;
+			
 			case 2:
-				editContact();
+				System.out.println("Enter the addressbook name to add contact");
+				String name2 = scanner.next();
+				flag = false;
+				for (AddressBook a : addressBooks) {
+					if (a.name.equals(name2)) {
+						a.addContact();
+						flag = true;
+					}
+				}
+				if(flag==false)
+					System.out.println("Addressbook not found");
+				
 				break;
-
 			case 3:
-				display();
+				System.out.println("Enter the addressbook name to edit");
+				String name3 = scanner.next();
+				flag = false;
+				for (AddressBook a : addressBooks) {
+					if (a.name.equals(name3)) {
+						a.editContact();
+						flag = true;
+					}
+				}
+				if(flag==false)
+					System.out.println("Addressbook not found");
+				
 				break;
 
 			case 4:
-				deleteContact();
-				break;
-			}
-		}
-
-	}
-
-	private static void deleteContact() {
-
-		System.out.println("Enter the name of the person whose contact is to be deleted");
-		Scanner scanner = new Scanner(System.in);
-		String name = scanner.next();
-		for (int j = 0; j < contacts.size(); j++) {
-			if (contacts.get(j).first_name.equals(name)) {
-				contacts.remove(j);
-				System.out.println(name + " deleted from address book");
-				return;
-			}
-		}
-		System.out.println(name + " not found in the address book");
-
-	}
-
-	private static void display() {
-
-		if (contacts.size() == 0) {
-			System.out.println("Address book is empty");
-			return;
-		}
-		System.out.println("Contact Details are:\n");
-		for (int j = 0; j < contacts.size(); j++) {
-
-			System.out.println("Contact details of person" + j + 1);
-			System.out.println(contacts.get(j) + "\n");
-		}
-	}
-
-	private static void editContact() {
-
-		Boolean flag = false;
-		System.out.println("Enter the name of the person whose contact is to be edited"); // to edit existing address
-		Scanner scanner = new Scanner(System.in);
-		String name = scanner.next();
-		for (int j = 0; j < contacts.size(); j++) {
-
-			if (contacts.get(j).first_name.equals(name)) {
-				flag = true;
-				int choice = 0;
-				while (choice != 9) {
-					System.out.println(
-							"Enter the field which you want to edit\n1.first name\n2.last name\n3.address\n4.city\n5.state\n6.zip\n7.phone number\n8.email\n9.Exit");
-					choice = scanner.nextInt();
-					switch (choice) {
-
-					case 1:
-						System.out.println("Enter new first name:");
-						contacts.get(j).first_name = scanner.next();
-						break;
-
-					case 2:
-						System.out.println("Enter new last name:");
-						contacts.get(j).last_name = scanner.next();
-						break;
-
-					case 3:
-						System.out.println("Enter new address:");
-						contacts.get(j).address = scanner.next();
-						break;
-
-					case 4:
-						System.out.println("Enter new city:");
-						contacts.get(j).city = scanner.next();
-						break;
-
-					case 5:
-						System.out.println("Enter new state:");
-						contacts.get(j).state = scanner.next();
-						break;
-
-					case 6:
-						System.out.println("Enter new zip:");
-						contacts.get(j).zip = scanner.next();
-						break;
-
-					case 7:
-						System.out.println("Enter new phone_number:");
-						contacts.get(j).phone_number = scanner.next();
-						break;
-
-					case 8:
-						System.out.println("Enter new email:");
-						contacts.get(j).email = scanner.next();
-						break;
-
+				System.out.println("Enter the addressbook name to display");
+				String name4 = scanner.next();
+				flag = false;
+				for (AddressBook a : addressBooks) {
+					if (a.name.equals(name4)) {
+						a.display();
+						flag = true;
 					}
 				}
+				if(flag==false)
+					System.out.println("Addressbook not found");
+				break;
+
+			case 5:
+				System.out.println("Enter the addressbook name to delete");
+				String name5 = scanner.next();
+				flag = false;
+				for (AddressBook a : addressBooks) {
+					if (a.name.equals(name5)) {
+						a.deleteContact();
+						flag = true;
+					}
+				}
+				if(flag==false)
+					System.out.println("Addressbook not found");
+				break;
+				
 			}
 		}
-		if (flag == false)
-			System.out.println(name + " not found in address book");
 
 	}
 
-	private static void addContact() {
-
-		Scanner scanner = new Scanner(System.in);
-		Contact newContact = new Contact();
-		System.out.println("Enter first Name:");
-		newContact.first_name = scanner.next();
-		System.out.println("Enter last name:");
-		newContact.last_name = scanner.next();
-		System.out.println("Enter address:");
-		newContact.address = scanner.next();
-		System.out.println("Enter city:");
-		newContact.city = scanner.next();
-		System.out.println("Enter state:");
-		newContact.state = scanner.next();
-		System.out.println("Enter zip:");
-		newContact.zip = scanner.next();
-		System.out.println("Enter phone number");
-		newContact.phone_number = scanner.next();
-		System.out.println("Enter E-mail:");
-		newContact.email = scanner.next();
-		contacts.add(newContact);
-	}
+	
 
 }
