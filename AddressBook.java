@@ -4,12 +4,14 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class AddressBook {
-	public static ArrayList<Contact> contacts = new ArrayList<>();
+	public ArrayList<Contact> contacts = new ArrayList<>();
 	String name;
+
 	public AddressBook(String name) {
 		this.name = name;
 	}
-	public static void deleteContact() {
+
+	public void deleteContact() {
 
 		System.out.println("Enter the name of the person whose contact is to be deleted");
 		Scanner scanner = new Scanner(System.in);
@@ -25,7 +27,7 @@ public class AddressBook {
 
 	}
 
-	public static void display() {
+	public void display() {
 
 		if (contacts.size() == 0) {
 			System.out.println("Address book is empty");
@@ -34,12 +36,12 @@ public class AddressBook {
 		System.out.println("Contact Details are:\n");
 		for (int j = 0; j < contacts.size(); j++) {
 
-			System.out.println("Contact details of person" + j + 1);
+			System.out.println("Contact details of person");
 			System.out.println(contacts.get(j) + "\n");
 		}
 	}
 
-	public static void editContact() {
+	public void editContact() {
 
 		Boolean flag = false;
 		System.out.println("Enter the name of the person whose contact is to be edited"); // to edit existing address
@@ -105,7 +107,7 @@ public class AddressBook {
 
 	}
 
-	static void addContact() {
+	void addContact() {
 
 		Scanner scanner = new Scanner(System.in);
 		Contact newContact = new Contact();
