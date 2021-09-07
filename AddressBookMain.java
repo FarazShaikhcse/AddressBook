@@ -2,11 +2,14 @@ package com.main;
 
 import java.util.*;
 
-
+/**
+ * @author faraz
+ * This main class implements all the main functionality of addressbook management
+ */
 public class AddressBookMain {
 
-	public static Set<AddressBook> addressBooks = new HashSet<>();
-	
+	static HashMap<String, AddressBook> addressBooks = new HashMap<String, AddressBook>();
+
 	public static void main(String[] args) {
 
 		int choice = 0;
@@ -23,49 +26,52 @@ public class AddressBookMain {
 			case 1:
 				System.out.println("Enter addressbook name");
 				String name = scanner.next();
-				addressBooks.add(new AddressBook(name));
-			    break;
-			
+				addressBooks.put(name, new AddressBook());
+				break;
+
 			case 2:
 				System.out.println("Enter the addressbook name to add contact");
 				String name2 = scanner.next();
 				flag = false;
-				for (AddressBook a : addressBooks) {
-					if (a.name.equals(name2)) {
-						a.addContact();
+				for (Map.Entry m : addressBooks.entrySet()) {
+					if (m.getKey().equals(name2)) {
+						AddressBook addressBook = (AddressBook) m.getValue();
+						addressBook.addContact();
 						flag = true;
 					}
 				}
-				if(flag==false)
+				if (flag == false)
 					System.out.println("Addressbook not found");
-				
+
 				break;
 			case 3:
 				System.out.println("Enter the addressbook name to edit");
 				String name3 = scanner.next();
 				flag = false;
-				for (AddressBook a : addressBooks) {
-					if (a.name.equals(name3)) {
-						a.editContact();
+				for (Map.Entry m : addressBooks.entrySet()) {
+					if (m.getKey().equals(name3)) {
+						AddressBook addressBook = (AddressBook) m.getValue();
+						addressBook.editContact();
 						flag = true;
 					}
 				}
-				if(flag==false)
+				if (flag == false)
 					System.out.println("Addressbook not found");
-				
+
 				break;
 
 			case 4:
 				System.out.println("Enter the addressbook name to display");
 				String name4 = scanner.next();
 				flag = false;
-				for (AddressBook a : addressBooks) {
-					if (a.name.equals(name4)) {
-						a.display();
+				for (Map.Entry m : addressBooks.entrySet()) {
+					if (m.getKey().equals(name4)) {
+						AddressBook addressBook = (AddressBook) m.getValue();
+						addressBook.display();
 						flag = true;
 					}
 				}
-				if(flag==false)
+				if (flag == false)
 					System.out.println("Addressbook not found");
 				break;
 
@@ -73,21 +79,20 @@ public class AddressBookMain {
 				System.out.println("Enter the addressbook name to delete");
 				String name5 = scanner.next();
 				flag = false;
-				for (AddressBook a : addressBooks) {
-					if (a.name.equals(name5)) {
-						a.deleteContact();
+				for (Map.Entry m : addressBooks.entrySet()) {
+					if (m.getKey().equals(name5)) {
+						AddressBook addressBook = (AddressBook) m.getValue();
+						addressBook.deleteContact();
 						flag = true;
 					}
 				}
-				if(flag==false)
+				if (flag == false)
 					System.out.println("Addressbook not found");
 				break;
-				
+
 			}
 		}
 
 	}
-
-	
 
 }

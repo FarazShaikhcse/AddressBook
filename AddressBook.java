@@ -1,24 +1,34 @@
 package com.main;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Scanner;
 
+/**
+ * @author faraz
+ * This class represents addressbook object which contains set of contacts 
+ * and the operations that will be performed on them.
+ */
 public class AddressBook {
-	public ArrayList<Contact> contacts = new ArrayList<>();
-	String name;
 
-	public AddressBook(String name) {
-		this.name = name;
-	}
+	/**
+	 * hashset is used to avoid duplicates
+	 */
+	HashSet<Contact> contacts = new HashSet<Contact>();
 
+	/**
+	 * This method will delete the specified contact from the specified addressbook
+	 */
 	public void deleteContact() {
 
 		System.out.println("Enter the name of the person whose contact is to be deleted");
 		Scanner scanner = new Scanner(System.in);
 		String name = scanner.next();
-		for (int j = 0; j < contacts.size(); j++) {
-			if (contacts.get(j).first_name.equals(name)) {
-				contacts.remove(j);
+		Iterator itr = contacts.iterator();
+		while (itr.hasNext()) {
+			Contact contact = (Contact) itr.next();
+			if (contact.first_name.equals(name)) {
+				contacts.remove(contact);
 				System.out.println(name + " deleted from address book");
 				return;
 			}
@@ -27,6 +37,9 @@ public class AddressBook {
 
 	}
 
+	/**
+	 * This method will display all the contacts of the addressbook
+	 */
 	public void display() {
 
 		if (contacts.size() == 0) {
@@ -34,22 +47,27 @@ public class AddressBook {
 			return;
 		}
 		System.out.println("Contact Details are:\n");
-		for (int j = 0; j < contacts.size(); j++) {
-
+		Iterator itr = contacts.iterator();
+		while (itr.hasNext()) {
+			Contact contact = (Contact) itr.next();
 			System.out.println("Contact details of person");
-			System.out.println(contacts.get(j) + "\n");
+			System.out.println(contact + "\n");
 		}
 	}
 
+	/**
+	 * This method will prompt the user to edit the required fields of the contact
+	 */
 	public void editContact() {
 
 		Boolean flag = false;
 		System.out.println("Enter the name of the person whose contact is to be edited"); // to edit existing address
 		Scanner scanner = new Scanner(System.in);
 		String name = scanner.next();
-		for (int j = 0; j < contacts.size(); j++) {
-
-			if (contacts.get(j).first_name.equals(name)) {
+		Iterator itr = contacts.iterator();
+		while (itr.hasNext()) {
+			Contact contact = (Contact) itr.next();
+			if (contact.first_name.equals(name)) {
 				flag = true;
 				int choice = 0;
 				while (choice != 9) {
@@ -60,42 +78,42 @@ public class AddressBook {
 
 					case 1:
 						System.out.println("Enter new first name:");
-						contacts.get(j).first_name = scanner.next();
+						contact.first_name = scanner.next();
 						break;
 
 					case 2:
 						System.out.println("Enter new last name:");
-						contacts.get(j).last_name = scanner.next();
+						contact.last_name = scanner.next();
 						break;
 
 					case 3:
 						System.out.println("Enter new address:");
-						contacts.get(j).address = scanner.next();
+						contact.address = scanner.next();
 						break;
 
 					case 4:
 						System.out.println("Enter new city:");
-						contacts.get(j).city = scanner.next();
+						contact.city = scanner.next();
 						break;
 
 					case 5:
 						System.out.println("Enter new state:");
-						contacts.get(j).state = scanner.next();
+						contact.state = scanner.next();
 						break;
 
 					case 6:
 						System.out.println("Enter new zip:");
-						contacts.get(j).zip = scanner.next();
+						contact.zip = scanner.next();
 						break;
 
 					case 7:
 						System.out.println("Enter new phone_number:");
-						contacts.get(j).phone_number = scanner.next();
+						contact.phone_number = scanner.next();
 						break;
 
 					case 8:
 						System.out.println("Enter new email:");
-						contacts.get(j).email = scanner.next();
+						contact.email = scanner.next();
 						break;
 
 					}
@@ -107,6 +125,9 @@ public class AddressBook {
 
 	}
 
+	/**
+	 * This method will add a new contact to the addressbook
+	 */
 	void addContact() {
 
 		Scanner scanner = new Scanner(System.in);
