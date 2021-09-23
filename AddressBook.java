@@ -1,8 +1,12 @@
 package com.main;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
@@ -14,7 +18,7 @@ import java.util.stream.Stream;
  * @author faraz This class represents addressbook object which contains set of
  *         contacts and the operations that will be performed on them.
  */
-public class AddressBook {
+public class AddressBook implements Comparator<Contact> {
 
 	/**
 	 * hashset is used to avoid duplicates
@@ -180,33 +184,72 @@ public class AddressBook {
 	}
 
 	/**
-	 * @param place is the state or city name of the contacts to be displayed
-	 * this method searches for the contacts that belong to the given city or the state
+	 * @param place is the city name of the contacts to be displayed this method
+	 *              searches for the contacts that belong to the given city
 	 */
-	public int search(String place) {
-		Map<String, Contact> statesMap = new HashMap<>();
-		Map<String, Contact> cityMap = new HashMap<>();
-		Stream<Contact> entriesStream = contacts.stream();
+	public int searchCity(String place) {
 
-		entriesStream.anyMatch((x) -> {
-			if (x.state.equals(place)) {
-				statesMap.put(x.state, x);
-				return true;
-			} else if (x.city.equals(place)) {
+		Map<String, Contact> cityMap = new HashMap<>();
+
+		Stream<Contact> valuesStream = contacts.stream();
+
+		valuesStream.anyMatch((x) -> {
+			if (x.city.equals(place)) {
 				cityMap.put(x.city, x);
 				return true;
 			}
 			return false;
 		});
 
-		for (Map.Entry<String, Contact> entry : statesMap.entrySet())
-			System.out.println(entry.getValue());
-
 		for (Map.Entry<String, Contact> entry : cityMap.entrySet())
 			System.out.println(entry.getValue());
-		
-		return statesMap.size() + cityMap.size();
 
-	
+		return cityMap.size();
+
+	}
+
+	/**
+	 * @param place is the state name of the contacts to be displayed this method
+	 *              searches for the contacts that belong to the given state
+	 */
+	public int searchState(String place) {
+
+		Map<String, Contact> statesMap = new HashMap<>();
+
+		Stream<Contact> valuesStream = contacts.stream();
+
+		valuesStream.anyMatch((x) -> {
+			if (x.state.equals(place)) {
+				statesMap.put(x.state, x);
+				return true;
+			}
+			return false;
+		});
+
+		for (Map.Entry<String, Contact> entry : statesMap.entrySet()) {
+
+			System.out.println(entry.getValue());
+		}
+
+		return statesMap.size();
+
+	}
+
+	public void sort() {
+
+		
+		Set<Contact> sortedContact = contacts.stream().sorted(new AddressBook("")).collect(Collectors.toSet());
+		Iterator itr = sortedContact.iterator();
+		
+		System.out.println("The sorted contacts:");
+		while (itr.hasNext()) {
+			Contact contact = (Contact) itr.next();
+			System.out.println(contact);
+		}
+	}
+
+	@Override
+	public int compare(Contact arg0, Contact arg1) {
+		return arg0.first_name.compareTo(arg1.first_name);
 	}
 }

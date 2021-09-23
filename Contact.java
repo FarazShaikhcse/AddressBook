@@ -17,6 +17,7 @@ public class Contact {
 	public String phone_number;
 	public String email;
 	
+
 	@Override
 	public String toString() {
 		return "first_name=" + first_name + ", last_name=" + last_name + ", address=" + address + ", city=" + city
