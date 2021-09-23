@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -185,5 +184,26 @@ public class AddressBook {
 		System.out.println("Enter E-mail:");
 		newContact.email = scanner.next();
 		Stream.of(newContact).collect(Collectors.toCollection(() -> contacts));
+	}
+	
+	public void search(String place) {
+		//Set<Map.Entry<String, Contact>> entries = contacts.entrySet();
+		Stream<Contact> entriesStream = contacts.stream();
+
+//		Set<String> keySet = contacts.keySet();
+//		Collection<Contact> values = contacts.values();
+//
+//		Stream<Contact> valuesStream = values.stream();
+//		Stream<String> keysStream = keySet.stream();
+
+		entriesStream.anyMatch((x) -> {
+			if (x.city.equals(place) || x.state.equals(place)) {
+				System.out.println(x);
+				return true;
+			} else {
+				return false;
+			}
+		});
+
 	}
 }
