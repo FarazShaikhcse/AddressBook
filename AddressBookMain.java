@@ -93,10 +93,12 @@ public class AddressBookMain {
 			case 6:
 				System.out.println("Enter the city or state name:");
 				String place = scanner.next();
+				int count = 0;
 				for (Map.Entry<String, AddressBook> entry : addressBooks.entrySet()) {
 					AddressBook obj = entry.getValue();
-					obj.search(place);
+					count += obj.search(place);
 				}
+				System.out.println("The number of contacts in " + place + " is " + count);
 				break;
 
 			}

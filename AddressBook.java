@@ -6,6 +6,7 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,7 +21,6 @@ public class AddressBook {
 	 */
 	String addressbookname;
 	HashSet<Contact> contacts = new HashSet<Contact>();
-	Stream<Contact> stream = contacts.stream();
 
 	public AddressBook(String name) {
 		addressbookname = name;
@@ -183,7 +183,7 @@ public class AddressBook {
 	 * @param place is the state or city name of the contacts to be displayed
 	 * this method searches for the contacts that belong to the given city or the state
 	 */
-	public void search(String place) {
+	public int search(String place) {
 		Map<String, Contact> statesMap = new HashMap<>();
 		Map<String, Contact> cityMap = new HashMap<>();
 		Stream<Contact> entriesStream = contacts.stream();
@@ -204,6 +204,9 @@ public class AddressBook {
 
 		for (Map.Entry<String, Contact> entry : cityMap.entrySet())
 			System.out.println(entry.getValue());
+		
+		return statesMap.size() + cityMap.size();
 
+	
 	}
 }
