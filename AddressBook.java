@@ -2,7 +2,11 @@ package com.main;
 
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Objects;
 import java.util.Scanner;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author faraz
@@ -14,7 +18,36 @@ public class AddressBook {
 	/**
 	 * hashset is used to avoid duplicates
 	 */
+	String addressbookname;
 	HashSet<Contact> contacts = new HashSet<Contact>();
+	Stream<Contact> stream = contacts.stream();
+	
+	public AddressBook(String name) {
+		addressbookname = name;
+	}
+	
+	
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(addressbookname);
+	}
+
+
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		AddressBook other = (AddressBook) obj;
+		return Objects.equals(addressbookname, other.addressbookname);
+	}
+
+
 
 	/**
 	 * This method will delete the specified contact from the specified addressbook
@@ -53,7 +86,10 @@ public class AddressBook {
 			System.out.println("Contact details of person");
 			System.out.println(contact + "\n");
 		}
-	}
+
+	      
+    }
+	
 
 	/**
 	 * This method will prompt the user to edit the required fields of the contact
@@ -148,6 +184,6 @@ public class AddressBook {
 		newContact.phone_number = scanner.next();
 		System.out.println("Enter E-mail:");
 		newContact.email = scanner.next();
-		contacts.add(newContact);
+		Stream.of(newContact).collect(Collectors.toCollection(() -> contacts));
 	}
 }

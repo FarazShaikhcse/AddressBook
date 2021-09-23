@@ -26,7 +26,7 @@ public class AddressBookMain {
 			case 1:
 				System.out.println("Enter addressbook name");
 				String name = scanner.next();
-				addressBooks.put(name, new AddressBook());
+				addressBooks.put(name, new AddressBook(name));
 				break;
 
 			case 2:

@@ -1,6 +1,7 @@
 package com.main;
 
 import java.util.Objects;
+import java.util.stream.Stream;
 
 /**
  * @author faraz
@@ -16,12 +17,13 @@ public class Contact {
 	public String zip;
 	public String phone_number;
 	public String email;
-
+	
 	@Override
 	public String toString() {
 		return "first_name=" + first_name + ", last_name=" + last_name + ", address=" + address + ", city=" + city
 				+ ", state=" + state + ", zip=" + zip + ", phone_number=" + phone_number + ", email=" + email;
 	}
+	
 
 	@Override
 	public int hashCode() {
