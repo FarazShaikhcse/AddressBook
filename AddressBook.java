@@ -1,16 +1,17 @@
 package com.main;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
- * @author faraz
- * This class represents addressbook object which contains set of contacts 
- * and the operations that will be performed on them.
+ * @author faraz This class represents addressbook object which contains set of
+ *         contacts and the operations that will be performed on them.
  */
 public class AddressBook {
 
@@ -20,19 +21,15 @@ public class AddressBook {
 	String addressbookname;
 	HashSet<Contact> contacts = new HashSet<Contact>();
 	Stream<Contact> stream = contacts.stream();
-	
+
 	public AddressBook(String name) {
 		addressbookname = name;
 	}
-	
-	
 
 	@Override
 	public int hashCode() {
 		return Objects.hash(addressbookname);
 	}
-
-
 
 	@Override
 	public boolean equals(Object obj) {
@@ -45,8 +42,6 @@ public class AddressBook {
 		AddressBook other = (AddressBook) obj;
 		return Objects.equals(addressbookname, other.addressbookname);
 	}
-
-
 
 	/**
 	 * This method will delete the specified contact from the specified addressbook
@@ -86,9 +81,7 @@ public class AddressBook {
 			System.out.println(contact + "\n");
 		}
 
-	      
-    }
-	
+	}
 
 	/**
 	 * This method will prompt the user to edit the required fields of the contact
@@ -185,25 +178,32 @@ public class AddressBook {
 		newContact.email = scanner.next();
 		Stream.of(newContact).collect(Collectors.toCollection(() -> contacts));
 	}
-	
+
+	/**
+	 * @param place is the state or city name of the contacts to be displayed
+	 * this method searches for the contacts that belong to the given city or the state
+	 */
 	public void search(String place) {
-		//Set<Map.Entry<String, Contact>> entries = contacts.entrySet();
+		Map<String, Contact> statesMap = new HashMap<>();
+		Map<String, Contact> cityMap = new HashMap<>();
 		Stream<Contact> entriesStream = contacts.stream();
 
-//		Set<String> keySet = contacts.keySet();
-//		Collection<Contact> values = contacts.values();
-//
-//		Stream<Contact> valuesStream = values.stream();
-//		Stream<String> keysStream = keySet.stream();
-
 		entriesStream.anyMatch((x) -> {
-			if (x.city.equals(place) || x.state.equals(place)) {
-				System.out.println(x);
+			if (x.state.equals(place)) {
+				statesMap.put(x.state, x);
 				return true;
-			} else {
-				return false;
+			} else if (x.city.equals(place)) {
+				cityMap.put(x.city, x);
+				return true;
 			}
+			return false;
 		});
+
+		for (Map.Entry<String, Contact> entry : statesMap.entrySet())
+			System.out.println(entry.getValue());
+
+		for (Map.Entry<String, Contact> entry : cityMap.entrySet())
+			System.out.println(entry.getValue());
 
 	}
 }
