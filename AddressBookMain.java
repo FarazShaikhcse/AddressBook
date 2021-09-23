@@ -3,8 +3,8 @@ package com.main;
 import java.util.*;
 
 /**
- * @author faraz
- * This main class implements all the main functionality of addressbook management
+ * @author faraz This main class implements all the main functionality of
+ *         addressbook management
  */
 public class AddressBookMain {
 
@@ -18,10 +18,10 @@ public class AddressBookMain {
 
 		System.out.println("Welcome to Address Book Program");
 
-		while (choice != 7) {
+		while (choice != 8) {
 			System.out.println(
-					"Enter your choice\n1.Create AddressBook\n2.Add Contact\n3.Edit Contact\n4.Display AddressBook\n" + ""
-							+ "5.Delete contact\n6.Display contacts by place\n7.Exit");
+					"Enter your choice\n1.Create AddressBook\n2.Add Contact\n3.Edit Contact\n4.Display AddressBook\n"
+							+ "" + "5.Delete contact\n6.Display contacts by place\n7. sort\n8.Exit");
 			choice = scanner.nextInt();
 			switch (choice) {
 			case 1:
@@ -91,14 +91,13 @@ public class AddressBookMain {
 					System.out.println("Addressbook not found");
 				break;
 			case 6:
-				System.out.println("Enter the city or state name:");
-				String place = scanner.next();
-				int count = 0;
+				searchbyPlace();
+				break;
+			case 7:
 				for (Map.Entry<String, AddressBook> entry : addressBooks.entrySet()) {
 					AddressBook obj = entry.getValue();
-					count += obj.search(place);
+					obj.sort();
 				}
-				System.out.println("The number of contacts in " + place + " is " + count);
 				break;
 
 			}
@@ -106,6 +105,33 @@ public class AddressBookMain {
 
 	}
 
-	
+	private static void searchbyPlace() {
+		Scanner reader = new Scanner(System.in);
+		System.out.println("Search contacts from\n1 City\n2 State");
+		int ch = reader.nextInt();
+		if (ch == 1) {
+			Scanner r1 = new Scanner(System.in);
+			System.out.println("Enter city name");
+			String place = r1.nextLine();
+			int count = 0;
+			for (Map.Entry<String, AddressBook> entry : addressBooks.entrySet()) {
+				AddressBook obj = entry.getValue();
+				count += obj.searchCity(place);
+			}
+			System.out.println(count + " contact found in city " + place);
+
+		} else if (ch == 2) {
+			Scanner r2 = new Scanner(System.in);
+			System.out.println("Enter state name");
+			String place = r2.nextLine();
+			int count = 0;
+			for (Map.Entry<String, AddressBook> entry : addressBooks.entrySet()) {
+				AddressBook obj = entry.getValue();
+				count += obj.searchState(place);
+			}
+			System.out.println(count + " contact found in State " + place);
+
+		}
+	}
 
 }
