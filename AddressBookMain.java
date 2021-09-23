@@ -18,9 +18,10 @@ public class AddressBookMain {
 
 		System.out.println("Welcome to Address Book Program");
 
-		while (choice != 6) {
+		while (choice != 7) {
 			System.out.println(
-					"Enter your choice\n1.Create AddressBook\n2.Add Contact\n3.Edit Contact\n4.Display AddressBook\n5.Delete contact\n6.Exit");
+					"Enter your choice\n1.Create AddressBook\n2.Add Contact\n3.Edit Contact\n4.Display AddressBook\n" + ""
+							+ "5.Delete contact\n6.Display contacts by place\n7.Exit");
 			choice = scanner.nextInt();
 			switch (choice) {
 			case 1:
@@ -89,10 +90,20 @@ public class AddressBookMain {
 				if (flag == false)
 					System.out.println("Addressbook not found");
 				break;
+			case 6:
+				System.out.println("Enter the city or state name:");
+				String place = scanner.next();
+				for (Map.Entry<String, AddressBook> entry : addressBooks.entrySet()) {
+					AddressBook obj = entry.getValue();
+					obj.search(place);
+				}
+				break;
 
 			}
 		}
 
 	}
+
+	
 
 }
