@@ -21,7 +21,7 @@ public class AddressBookMain {
 		while (choice != 8) {
 			System.out.println(
 					"Enter your choice\n1.Create AddressBook\n2.Add Contact\n3.Edit Contact\n4.Display AddressBook\n"
-							+ "" + "5.Delete contact\n6.Display contacts by place\n7. sort\n8.Exit");
+							+ "" + "5.Delete contact\n6.Display contacts by place\n7.Sort \n8.Exit");
 			choice = scanner.nextInt();
 			switch (choice) {
 			case 1:
@@ -94,10 +94,27 @@ public class AddressBookMain {
 				searchbyPlace();
 				break;
 			case 7:
+				int ch = 0;
+				System.out.println("Sort by:\n1. Name\n2. City\n3. State\n4. Zip");
+				ch = scanner.nextInt();
 				for (Map.Entry<String, AddressBook> entry : addressBooks.entrySet()) {
 					AddressBook obj = entry.getValue();
-					obj.sort();
+					switch (ch) {
+					case 1:
+						obj.sortByName();
+						break;
+					case 2:
+						obj.sortByCity();
+						break;
+					case 3:
+						obj.sortByState();
+						break;
+					case 4:
+						obj.sortByZip();
+						break;
+					}
 				}
+
 				break;
 
 			}
