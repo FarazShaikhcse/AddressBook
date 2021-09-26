@@ -1,5 +1,8 @@
 package com.main;
 
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -13,13 +16,14 @@ import java.util.stream.Stream;
  * @author faraz This class represents addressbook object which contains set of
  *         contacts and the operations that will be performed on them.
  */
-public class AddressBook{
+public class AddressBook {
 
 	/**
 	 * hashset is used to avoid duplicates
 	 */
 	String addressbookname;
 	HashSet<Contact> contacts = new HashSet<Contact>();
+	String basePath = "/Users/farazshabbir/eclipse-workspace/AddressBook/src/com/main/Data/";
 
 	public AddressBook(String name) {
 		addressbookname = name;
@@ -232,22 +236,46 @@ public class AddressBook{
 
 	public void sortByName() {
 		contacts.stream().sorted(new NameComparator()).forEach(s -> System.out.println(s));
-	
+
 	}
 
 	public void sortByCity() {
 		contacts.stream().sorted(new CityComparator()).forEach(s -> System.out.println(s));
-		
+
 	}
 
 	public void sortByZip() {
 		contacts.stream().sorted(new ZipComparator()).forEach(s -> System.out.println(s));
 	}
 
-
 	public void sortByState() {
 		contacts.stream().sorted(new StateComparator()).forEach(s -> System.out.println(s));
-		
+
 	}
-		
+
+	// writes the data from the file
+	public void writeFile(String file) {
+		try {
+			FileWriter writer = new FileWriter(basePath + file + ".txt", true);
+			contacts.stream().forEach(c -> {
+				try {
+					writer.write(c+"\n");
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+			});
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	// reads the data from the file
+	public void readFile(String file) throws IOException {
+		FileReader fr = new FileReader(basePath + file + ".txt");
+		int i;
+		while ((i = fr.read()) != -1)
+			System.out.print((char) i);
+	}
+
 }
