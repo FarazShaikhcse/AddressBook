@@ -1,16 +1,11 @@
 package com.main;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
-import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -18,7 +13,7 @@ import java.util.stream.Stream;
  * @author faraz This class represents addressbook object which contains set of
  *         contacts and the operations that will be performed on them.
  */
-public class AddressBook implements Comparator<Contact> {
+public class AddressBook{
 
 	/**
 	 * hashset is used to avoid duplicates
@@ -235,21 +230,24 @@ public class AddressBook implements Comparator<Contact> {
 
 	}
 
-	public void sort() {
-
-		
-		Set<Contact> sortedContact = contacts.stream().sorted(new AddressBook("")).collect(Collectors.toSet());
-		Iterator itr = sortedContact.iterator();
-		
-		System.out.println("The sorted contacts:");
-		while (itr.hasNext()) {
-			Contact contact = (Contact) itr.next();
-			System.out.println(contact);
-		}
+	public void sortByName() {
+		contacts.stream().sorted(new NameComparator()).forEach(s -> System.out.println(s));
+	
 	}
 
-	@Override
-	public int compare(Contact arg0, Contact arg1) {
-		return arg0.first_name.compareTo(arg1.first_name);
+	public void sortByCity() {
+		contacts.stream().sorted(new CityComparator()).forEach(s -> System.out.println(s));
+		
 	}
+
+	public void sortByZip() {
+		contacts.stream().sorted(new ZipComparator()).forEach(s -> System.out.println(s));
+	}
+
+
+	public void sortByState() {
+		contacts.stream().sorted(new StateComparator()).forEach(s -> System.out.println(s));
+		
+	}
+		
 }
