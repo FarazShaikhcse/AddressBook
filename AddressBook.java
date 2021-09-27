@@ -1,5 +1,6 @@
 package com.main;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -14,6 +15,7 @@ import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import com.google.gson.Gson;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVReaderBuilder;
 import com.opencsv.CSVWriter;
@@ -361,6 +363,44 @@ public class AddressBook {
 
 			// closing writer connection
 			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+	/**
+	 * @param file
+	 * generates JSON from contacts and writes to JSON file
+	 */
+	public void writeContactJson(String file) {
+		Gson gson = new Gson();
+		try {
+			FileWriter writer = new FileWriter(file);
+			for (Contact c : contacts) {
+				String json = gson.toJson(c);
+
+				writer.write(json);
+				writer.write("\n");
+
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * @param file=json file path Reads the contacts from json file
+	 */
+	public void addContactJson(String file) {
+		Gson gson = new Gson();
+		try {
+			System.out.println("Reading JSON from a file");
+			System.out.println("----------------------------");
+
+			BufferedReader br = new BufferedReader(new FileReader(file));
+			Contact contactObj = gson.fromJson(br, Contact.class);
+			contacts.add(contactObj);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

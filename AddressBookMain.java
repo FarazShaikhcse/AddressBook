@@ -10,6 +10,7 @@ import java.util.*;
 public class AddressBookMain {
 
 	static HashMap<String, AddressBook> addressBooks = new HashMap<String, AddressBook>();
+	static String basePath = "/Users/farazshabbir/eclipse-workspace/AddressBook/src/com/main/Data";
 
 	public static void main(String[] args) {
 
@@ -19,11 +20,12 @@ public class AddressBookMain {
 
 		System.out.println("Welcome to Address Book Program");
 
-		while (choice != 12) {
+		while (choice != 14) {
 			System.out.println(
 					"Enter your choice\n1.Create AddressBook\n2.Add Contact\n3.Edit Contact\n4.Display AddressBook\n"
 							+ "" + "5.Delete contact\n6.Display contacts by place\n7.Sort\n8.Write addressbook to file\n" + 
-							"9.Read addressbook from file\n10.Read from csv\n11.Write to csv\n12.Exit");
+							"9.Read addressbook from file\n10.Read from csv\n11.Write to csv\n" + 
+							"12.Read from JSON\n13.Write to JSON\n14.Exit");
 			choice = scanner.nextInt();
 			switch (choice) {
 			case 1:
@@ -129,8 +131,12 @@ public class AddressBookMain {
 			case 11:
 				writeTocsv();
 				break;
-			
-
+			case 12:
+				readFromJson();
+				break;
+			case 13:
+				writeToJson();
+				break;
 			}
 		}
 
@@ -149,6 +155,9 @@ public class AddressBookMain {
 		
 	}
 
+	/**
+	 * this method search for contacts belonging to a place
+	 */
 	private static void searchbyPlace() {
 		Scanner reader = new Scanner(System.in);
 		System.out.println("Search contacts from\n1 City\n2 State");
@@ -177,8 +186,10 @@ public class AddressBookMain {
 
 		}
 	}
+	/**
+	 * this method will write contacts of addressbook to csv file
+	 */
 	private static void writeTocsv() {
-		String basePath = "/Users/farazshabbir/eclipse-workspace/AddressBook/src/com/main/Data";
 		Scanner m = new Scanner(System.in);
 		System.out.println("Enter the address book you wanna write");
 		String fileName = m.next();
@@ -195,7 +206,7 @@ public class AddressBookMain {
 	 * Reads the addressbook from csv file
 	 */
 	private static void readFromCsv() {
-		String basePath = "/Users/farazshabbir/eclipse-workspace/AddressBook/src/com/main/Data";
+		
 		Scanner m = new Scanner(System.in);
 		System.out.println("Enter the address book you want to read");
 		String filename = m.next();
@@ -207,6 +218,40 @@ public class AddressBookMain {
 		AddressBook adBook = new AddressBook(filename);
 		addressBooks.put(filename, adBook);
 		adBook.addContactCsv(basePath + "/" + filename + ".csv");
+	}
+	/**
+	 * this method will write the contacts of addressbook to addressbook file
+	 */
+	private static void writeToJson() {
+		Scanner m = new Scanner(System.in);
+		System.out.println("Enter the address book you wanna write");
+		String fileName = m.next();
+		AddressBook Book = addressBooks.get(fileName);
+		if (Book == null) {
+			System.out.println("No book found");
+			return;
+
+		}
+		addressBooks.get(fileName).writeContactJson(basePath + "/" + fileName + ".json");
+
+	}
+
+	/**
+	 * this method will read the addressbook from json file
+	 */
+	private static void readFromJson() {
+		Scanner m = new Scanner(System.in);
+		System.out.println("Enter the address book you wanna read");
+		String filename = m.next();
+		File file = new File(basePath + "/" + filename + ".json");
+		if (!file.exists()) {
+			System.out.println("Address book not found");
+			return;
+		}
+		AddressBook adBook = new AddressBook(filename);
+		addressBooks.put(filename, adBook);
+		adBook.addContactJson(basePath + "/" + filename + ".json");
+
 	}
 
 }
