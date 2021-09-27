@@ -39,6 +39,9 @@ public class Contact {
 	}
 	
 
+	/**
+	 * overriding hashcode and equals method to avoid duplicate contacts with same name
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(first_name, last_name);
