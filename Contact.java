@@ -17,7 +17,21 @@ public class Contact {
 	public String phone_number;
 	public String email;
 	
+	Contact(){}
+	
+	Contact(String firstName, String lastName, String address, String city, String state, String zip,
+			String phoneNumber, String eMail) {
+		this.first_name = firstName;
+		this.last_name = lastName;
+		this.address = address;
+		this.city = city;
+		this.state = state;
+		this.phone_number = phoneNumber;
+		this.zip = zip;
+		this.email = eMail;
 
+	}
+	
 	@Override
 	public String toString() {
 		return "first_name=" + first_name + ", last_name=" + last_name + ", address=" + address + ", city=" + city

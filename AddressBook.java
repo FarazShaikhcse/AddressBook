@@ -1,16 +1,22 @@
 package com.main;
 
+import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import com.opencsv.CSVReader;
+import com.opencsv.CSVReaderBuilder;
+import com.opencsv.CSVWriter;
 
 /**
  * @author faraz This class represents addressbook object which contains set of
@@ -29,6 +35,9 @@ public class AddressBook {
 		addressbookname = name;
 	}
 
+	/**
+	 *over riding hashcode and equals method to avoid duplicate addressbook names
+	 */
 	@Override
 	public int hashCode() {
 		return Objects.hash(addressbookname);
@@ -234,26 +243,39 @@ public class AddressBook {
 
 	}
 
+	/**
+	 * sorts the contacts by name
+	 */
 	public void sortByName() {
 		contacts.stream().sorted(new NameComparator()).forEach(s -> System.out.println(s));
 
 	}
-
+	/**
+	 * sorts the contacts by city
+	 */
 	public void sortByCity() {
 		contacts.stream().sorted(new CityComparator()).forEach(s -> System.out.println(s));
 
 	}
-
+	/**
+	 * sorts the contacts by zip
+	 */
 	public void sortByZip() {
 		contacts.stream().sorted(new ZipComparator()).forEach(s -> System.out.println(s));
 	}
-
+	/**
+	 * sorts the contacts by state
+	 */
 	public void sortByState() {
 		contacts.stream().sorted(new StateComparator()).forEach(s -> System.out.println(s));
 
 	}
 
-	// writes the data from the file
+	
+	/**
+	 * @param file is the addressbook name
+	 * this method writes addressbook contacts to file
+	 */
 	public void writeFile(String file) {
 		try {
 			FileWriter writer = new FileWriter(basePath + file + ".txt", true);
@@ -270,12 +292,80 @@ public class AddressBook {
 		}
 	}
 
-	// reads the data from the file
+	
+	/**
+	 * @param file
+	 * @throws IOException
+	 * this method reads the addressbook file 
+	 */
 	public void readFile(String file) throws IOException {
 		FileReader fr = new FileReader(basePath + file + ".txt");
 		int i;
 		while ((i = fr.read()) != -1)
 			System.out.print((char) i);
 	}
+	
+	/**
+	 * @param file
+	 * This method adds a contact to addressbook from the csv file
+	 */
+	public void addContactCsv(String file) {
+		try {
+
+			// Create an object of filereader class
+			// with CSV file as a parameter.
+			FileReader filereader = new FileReader(file);
+
+			// create csvReader object
+			// and skip first Line
+			CSVReader csvReader = new CSVReaderBuilder(filereader).withSkipLines(1).build();
+			List<String[]> allData = csvReader.readAll();
+			Contact contact;
+
+			// print Data
+			for (String[] row : allData) {
+				contact = new Contact(row[0], row[1], row[2], row[3], row[4], row[5], row[6], row[7]);
+				System.out.println(contact+"test");
+				contacts.add(contact);
+			}
+
+			System.out.println();
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	/**
+	 * @param filePath=path to csv file Writes the contacts in dictionary to csv
+	 *                      file
+	 */
+	public void writeContactCsv(String filePath) {
+		File file = new File(filePath);
+		try {
+			// create FileWriter object with file as parameter
+			FileWriter outputfile = new FileWriter(file);
+
+			// create CSVWriter object filewriter object as parameter
+			CSVWriter writer = new CSVWriter(outputfile, ',', CSVWriter.NO_QUOTE_CHARACTER,
+					CSVWriter.DEFAULT_ESCAPE_CHARACTER, CSVWriter.DEFAULT_LINE_END);
+			// adding header to csv
+			String[] header = { "FistName", "Lastname", "Address", "City", "State", "Zip", "Phone Number", "Email" };
+			writer.writeNext(header);
+
+			for (Contact c : contacts) {
+				String[] data1 = { c.first_name, c.last_name, c.address, c.city, c.state, c.zip, c.phone_number, c.email };
+				writer.writeNext(data1);
+			}
+
+			// closing writer connection
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	}
+
 
 }
